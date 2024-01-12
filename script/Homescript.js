@@ -1,0 +1,6 @@
+let MMORPG=document.querySelector('#MMORPG')
+let SHOOTER=document.querySelector('#SHOOTER')
+let SAILING=document.querySelector('#SAILING')
+let PERMADEATH=document.querySelector('#PERMADEATH')
+let SUPERHERO=document.querySelector('#SUPERHERO')
+let PIXEL=document.querySelector('#PIXEL')
