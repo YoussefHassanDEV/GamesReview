@@ -1,3 +1,4 @@
+'strict mode'
 let MMORPG = document.querySelector('#MMORPG');
 let MMORPG1 = document.querySelector('#MMORPG1');
 
@@ -29,7 +30,8 @@ async function fetchgame(catg) {
     if (response.ok) {
         data = await response.json();
         console.log('hello5');
-        // display(catg);
+        display(catg);
+
     } else {
         console.error('Request failed with status:', response.status);
     }
@@ -40,7 +42,7 @@ async function fetchgame(catg) {
 function display(catg) {
     console.log("Hello6")
     let cartona = '';
-    for (let i = 0; i < Math.min(data.length,60); i++) {
+    for (let i = 0; i < Math.min(data.length, 60); i++) {
         cartona +=
             `<div class="card col-md-3 bg-dark text-white">
             <div><img src="${data[i].thumbnail}" alt="">
@@ -54,34 +56,34 @@ function display(catg) {
         </div>`;
     }
     console.log("Hello7")
-    console.log(data.length)
+    console.log(data)
     document.querySelector(`#${catg}1`).innerHTML = cartona;
 }
 
 MMORPG?.addEventListener('click', function () {
     fetchgame('MMORPG');
-    display('MMORPG')
+    // display('MMORPG')
 });
 SHOOTER?.addEventListener('click', function () {
-    fetchgame('shooter');
-    display('SHOOTER')
+    fetchgame('SHOOTER');
+    // display('SHOOTER')
 });
 SAILING?.addEventListener('click', function () {
     fetchgame('SAILING');
-    display('SAILING')
+    // display('SAILING')
 });
 PERMADEATH?.addEventListener('click', function () {
     fetchgame('PERMADEATH');
-    display('PERMADEATH')
+    // display('PERMADEATH')
 
 });
 SUPERHERO?.addEventListener('click', function () {
     fetchgame('SUPERHERO');
-    display('SUPERHERO')
+    // display('SUPERHERO')
 
 });
 PIXEL?.addEventListener('click', function () {
     fetchgame('PIXEL');
-    display('PIXEL')
+    // display('PIXEL')
 
 });
