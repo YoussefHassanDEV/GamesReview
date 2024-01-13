@@ -1,20 +1,20 @@
 'strict mode'
-let MMORPG = document.querySelector('#MMORPG');
+let MMORPG = document.querySelector('#MMORPG-tab');
 let MMORPG1 = document.querySelector('#MMORPG1');
 
-let SHOOTER = document.querySelector('#SHOOTER');
+let SHOOTER = document.querySelector('#SHOOTER-tab');
 let SHOOTER1 = document.querySelector('#SHOOTER1');
 
-let SAILING = document.querySelector('#SAILING');
+let SAILING = document.querySelector('#SAILING-tab');
 let SAILING1 = document.querySelector('#SAILING1');
 
-let PERMADEATH = document.querySelector('#PERMADEATH');
+let PERMADEATH = document.querySelector('#PERMADEATH-tab');
 let PERMADEATH1 = document.querySelector('#PERMADEATH1');
 
-let SUPERHERO = document.querySelector('#SUPERHERO');
-let SUPERHER1 = document.querySelector('#SUPERHERO1');
+let SUPERHERO = document.querySelector('#SUPERHERO-tab');
+let SUPERHERO1 = document.querySelector('#SUPERHERO1');
 
-let PIXEL = document.querySelector('#PIXEL');
+let PIXEL = document.querySelector('#PIXEL-tab');
 let PIXEL1 = document.querySelector('#PIXEL1');
 
 let data = '';
@@ -42,6 +42,8 @@ async function fetchgame(catg) {
 function display(catg) {
     console.log("Hello6")
     let cartona = '';
+    document.querySelector(`#${catg}1`).innerHTML = cartona;
+
     for (let i = 0; i < Math.min(data.length, 60); i++) {
         cartona +=
             `<div class="card col-md-3 bg-dark text-white">
@@ -56,34 +58,34 @@ function display(catg) {
         </div>`;
     }
     console.log("Hello7")
-    console.log(data)
+    console.log(data[0].genre)
     document.querySelector(`#${catg}1`).innerHTML = cartona;
 }
 
 MMORPG?.addEventListener('click', function () {
-    fetchgame('MMORPG');
+    fetchgame('mmorpg');
     // display('MMORPG')
 });
 SHOOTER?.addEventListener('click', function () {
-    fetchgame('SHOOTER');
+    fetchgame('shooter');
     // display('SHOOTER')
 });
 SAILING?.addEventListener('click', function () {
-    fetchgame('SAILING');
+    fetchgame('sailing');
     // display('SAILING')
 });
 PERMADEATH?.addEventListener('click', function () {
-    fetchgame('PERMADEATH');
+    fetchgame('permadeath');
     // display('PERMADEATH')
 
 });
 SUPERHERO?.addEventListener('click', function () {
-    fetchgame('SUPERHERO');
+    fetchgame('superhero');
     // display('SUPERHERO')
 
 });
 PIXEL?.addEventListener('click', function () {
-    fetchgame('PIXEL');
+    fetchgame('pixel');
     // display('PIXEL')
 
 });
