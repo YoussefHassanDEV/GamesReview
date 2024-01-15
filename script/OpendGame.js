@@ -24,7 +24,6 @@ class GameDetails {
 }
 
 let data = localStorage.getItem('data');
-console.log(JSON.parse(data));
 data = JSON.parse(data);
 
 let gameDetails = new GameDetails(data);
