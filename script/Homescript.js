@@ -1,91 +1,80 @@
-'strict mode'
-let MMORPG = document.querySelector('#MMORPG-tab');
-let MMORPG1 = document.querySelector('#MMORPG1');
+class GameManager {
+    constructor() {
+        this.categories = [
+            'MMORPG',
+            'SHOOTER',
+            'SAILING',
+            'PERMADEATH',
+            'SUPERHERO',
+            'PIXEL'
+        ];
+        this.data = '';
+        this.currentCategory = 'MMORPG';
 
-let SHOOTER = document.querySelector('#SHOOTER-tab');
-let SHOOTER1 = document.querySelector('#SHOOTER1');
+        this.initializeElements();
+        this.attachEventListeners();
+        this.fetchGame(this.currentCategory);
+    }
 
-let SAILING = document.querySelector('#SAILING-tab');
-let SAILING1 = document.querySelector('#SAILING1');
+    initializeElements() {
+        this.categoryTabs = this.categories.map(category => document.querySelector(`#${category}-tab`));
+        this.categoryContainers = this.categories.map(category => document.querySelector(`#${category}1`));
+    }
 
-let PERMADEATH = document.querySelector('#PERMADEATH-tab');
-let PERMADEATH1 = document.querySelector('#PERMADEATH1');
+    attachEventListeners() {
+        this.categoryTabs.forEach((tab, index) => {
+            tab?.addEventListener('click', () => {
+                this.fetchGame(this.categories[index]);
+            });
+        });
+    }
 
-let SUPERHERO = document.querySelector('#SUPERHERO-tab');
-let SUPERHERO1 = document.querySelector('#SUPERHERO1');
+    async fetchGame(catg) {
+        let apiUrl = `https://free-to-play-games-database.p.rapidapi.com/api/games?category=${catg}`;
+        let response = await fetch(apiUrl, {
+            method: 'GET',
+            headers: {
+                'X-RapidAPI-Key': '76fc61f8a7msh4770286876bd989p1fe559jsnc574e69ef844',
+                'X-RapidAPI-Host': 'free-to-play-games-database.p.rapidapi.com'
+            }
+        });
 
-let PIXEL = document.querySelector('#PIXEL-tab');
-let PIXEL1 = document.querySelector('#PIXEL1');
-
-let data = '';
-async function fetchgame(catg) {
-    let apiUrl = `https://free-to-play-games-database.p.rapidapi.com/api/games?category=${catg}`;
-    let response = await fetch(apiUrl, {
-        method: 'GET',
-        headers: {
-            'X-RapidAPI-Key': 'f7cf0866aemsh931debd9ba0ec4cp110723jsn8084da91a82c', // Replace with your RapidAPI key
-            'X-RapidAPI-Host': 'free-to-play-games-database.p.rapidapi.com'
+        if (response.ok) {
+            this.data = await response.json();
+            this.display(catg);
+        } else {
+            console.error('Request failed with status:', response.status);
         }
-    });
-    if (response.ok) {
-        data = await response.json();
-        console.log('hello5');
-        display(catg);
-
-    } else {
-        console.error('Request failed with status:', response.status);
     }
-    console.log('hello8');
 
+    display(catg) {
+        let cartona = '';
+        for (let i = 0; i < Math.min(this.data.length, 150); i++) {
+            cartona +=
+                `
+                <a class="col-md-3 bg-dark text-white" id="${i}" href="../index/OpendGame.html">
+                <div onclick="this.disgame(${i})" class="bg-dark">
+                <div><img src="${this.data[i].thumbnail}" alt=""></div>
+                <div>${this.data[i].title}</div>
+                <div>${this.data[i].short_description}</div>
+                <div class='d-flex'>
+                    <div class='justify-content-start'>${this.data[i].genre}</div>
+                    <div class='justify-content-end'>${this.data[i].platform}</div>
+                </div>
+            </div></a> `;
+        }
+
+        let targetContainer = document.querySelector(`#${catg}1`);
+        if (targetContainer) {
+            targetContainer.innerHTML = cartona;
+        } else {
+            console.error(`Element with id '${catg}1' not found.`);
+        }
+    }
+
+    disgame(index) {
+        localStorage.setItem('data', JSON.stringify(this.data[index]));
+    }
 }
 
-function display(catg) {
-    console.log("Hello6")
-    let cartona = '';
-    document.querySelector(`#${catg}1`).innerHTML = cartona;
-
-    for (let i = 0; i < Math.min(data.length, 60); i++) {
-        cartona +=
-            `<div class="card col-md-3 bg-dark text-white">
-            <div><img src="${data[i].thumbnail}" alt="">
-            </div>
-            <div>${data[i].title}</div>
-            <div>${data[i].short_description}</div>
-            <div class='d-flex'>
-                <div class='justify-content-start'>${data[i].genre}</div>
-                <div class='justify-content-end'>${data[i].platform}</div>
-            </div>
-        </div>`;
-    }
-    console.log("Hello7")
-    console.log(data[0].genre)
-    document.querySelector(`#${catg}1`).innerHTML = cartona;
-}
-
-MMORPG?.addEventListener('click', function () {
-    fetchgame('mmorpg');
-    // display('MMORPG')
-});
-SHOOTER?.addEventListener('click', function () {
-    fetchgame('shooter');
-    // display('SHOOTER')
-});
-SAILING?.addEventListener('click', function () {
-    fetchgame('sailing');
-    // display('SAILING')
-});
-PERMADEATH?.addEventListener('click', function () {
-    fetchgame('permadeath');
-    // display('PERMADEATH')
-
-});
-SUPERHERO?.addEventListener('click', function () {
-    fetchgame('superhero');
-    // display('SUPERHERO')
-
-});
-PIXEL?.addEventListener('click', function () {
-    fetchgame('pixel');
-    // display('PIXEL')
-
-});
+const gameManager = new GameManager();
